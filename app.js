@@ -1,13 +1,24 @@
 const Blockchain = require('./blockchain');
-const Block = require('./block');
+const Transaction = require('./transaction');
 
-let demoChain = new Blockchain();
+let demoCoin = new Blockchain();
 
-console.log('Starting mining...');
-demoChain.addBlock(new Block(1, '09/12/2021', { amount: 10 }));
-console.log('Starting mining...');
-demoChain.addBlock(new Block(2, '10/12/2021', { amount: 25 }));
-console.log('Starting mining...');
-demoChain.addBlock(new Block(3, '11/12/2021', { amount: 15 }));
+demoCoin.createTransaction(new Transaction(Date.now(), 'salix-wallet', 'salih-wallet', 150));
+demoCoin.createTransaction(new Transaction(Date.now(), 'salih-wallet', 'salix-wallet', 20));
 
-console.log('Is chain valid? ' + demoChain.isChainValid());
+console.log('\nmining a block...');
+demoCoin.mineCurrentBlock('miner-wallet');
+
+console.log('salix balance: ' + demoCoin.getAddressBalance('salix-wallet'));
+console.log('salih balance: ' + demoCoin.getAddressBalance('salih-wallet'));
+console.log('miner balance: ' + demoCoin.getAddressBalance('miner-wallet'));
+
+demoCoin.createTransaction(new Transaction(Date.now(), 'salix-wallet', 'salih-wallet', 50));
+demoCoin.createTransaction(new Transaction(Date.now(), 'salih-wallet', 'salix-wallet', 20));
+
+console.log('\nmining a block...');
+demoCoin.mineCurrentBlock('miner-wallet');
+
+console.log('salix balance: ' + demoCoin.getAddressBalance('salix-wallet'));
+console.log('salih balance: ' + demoCoin.getAddressBalance('salih-wallet'));
+console.log('miner balance: ' + demoCoin.getAddressBalance('miner-wallet'));
